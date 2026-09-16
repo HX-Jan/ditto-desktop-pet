@@ -57,4 +57,4 @@ dotnet run --project tests/Ditto.Tests -c Release
 
 ## 许可
 
-代码采用 [MIT](LICENSE)，美术素材及角色权利单独说明于 [ASSETS.md](ASSETS.md)。本项目不代表官方，不使用从官方游戏提取的素材。
+代码采用 [MIT](LICENSE)，美术素材及角色权利单独说明于 [ASSETS.md](ASSETS.md)。免安装包的 `ThirdParty` 目录包含所附 .NET 运行依赖的许可证与声明。本项目不代表官方，不使用从官方游戏提取的素材。

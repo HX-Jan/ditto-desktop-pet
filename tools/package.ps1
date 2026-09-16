@@ -10,6 +10,18 @@ try {
     Copy-Item README.md,LICENSE,ASSETS.md -Destination artifacts/publish
     Copy-Item docs/QUICKSTART.txt -Destination artifacts/publish
     Copy-Item docs -Destination artifacts/publish -Recurse -Force
+    $packageRoot = (& $Dotnet msbuild src/Ditto.Desktop/Ditto.Desktop.csproj -getProperty:NuGetPackageRoot -nologo).Trim()
+    if ($LASTEXITCODE -ne 0) { throw 'Cannot locate runtime package notices.' }
+    $runtimeConfig = Get-Content artifacts/publish/DittoDesktopPet.runtimeconfig.json -Raw | ConvertFrom-Json
+    foreach ($framework in $runtimeConfig.runtimeOptions.includedFrameworks) {
+        $packageName = $framework.name.ToLowerInvariant() + '.runtime.win-x64'
+        $runtimePackage = Join-Path (Join-Path $packageRoot $packageName) $framework.version
+        $noticeDir = Join-Path 'artifacts/publish/ThirdParty' $framework.name
+        New-Item -ItemType Directory -Force -Path $noticeDir | Out-Null
+        $notices = Get-ChildItem -LiteralPath $runtimePackage -File | Where-Object { $_.Name -like 'LICENSE*' -or $_.Name -like 'THIRD-PARTY-NOTICES*' }
+        if (-not $notices) { throw "Missing license notices for $packageName" }
+        Copy-Item -LiteralPath $notices.FullName -Destination $noticeDir
+    }
     $zipPath = Join-Path $repoRoot 'artifacts/DittoDesktopPet-v0.1.0-win-x64.zip'
     $packageEntries = Get-ChildItem artifacts/publish | Where-Object { $_.Extension -ne '.pdb' }
     Compress-Archive -LiteralPath $packageEntries.FullName -DestinationPath $zipPath -Force
