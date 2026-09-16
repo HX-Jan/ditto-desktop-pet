@@ -1,0 +1,23 @@
+name: 问题反馈
+description: 报告试运行中遇到的问题
+title: "[问题] "
+body:
+  - type: textarea
+    id: behavior
+    attributes:
+      label: 遇到了什么问题？
+      description: 请描述预期效果、实际效果，以及可重复的操作步骤。
+    validations:
+      required: true
+  - type: input
+    id: environment
+    attributes:
+      label: 运行环境
+      placeholder: 例如 Windows 11 24H2、175% 缩放、1920×1080、桌宠 v0.1.0
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: 截图或错误记录（可选）
+      description: 日志位于 %LOCALAPPDATA%\DittoDesktopPet\error.log，分享前请移除个人信息。

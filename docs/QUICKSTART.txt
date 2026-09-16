@@ -1,0 +1,23 @@
+百变怪桌宠 v0.1.0 · 试运行版
+
+1. 将 ZIP 中所有文件解压到同一个文件夹，不要直接在压缩包中启动。
+2. 双击 DittoDesktopPet.exe。首次启动后，桌宠出现在主屏任务栏上方。
+3. 点击：软糯回弹。按住左键拖动，松开后落回屏幕底部。
+4. 右键桌宠或系统托盘紫色图标：大小、暂停、睡眠、隐藏、退出。
+5. 隐藏后双击托盘图标，或再次启动程序，即可找回桌宠。
+
+无需安装 .NET，无需管理员权限，不联网，不自动启动。
+托盘图标可能在系统托盘的折叠区域中。
+暂停时拖动仍可用，松开直接回到底部；点击睡眠中的桌宠可唤醒。
+
+设置：%LOCALAPPDATA%\DittoDesktopPet\settings.json
+若遇到异常：该目录下的 error.log 可供排查。反馈前请检查日志是否含个人路径。
+卸载：退出后删除解压目录；如需清除设置，可另行删除上述设置目录。
+
+该试运行版未进行代码签名，Windows 可能显示未知发布者提示。
+仅支持主显示器，暂不支持多屏、自动全屏避让、变身和养成。
+系统实测范围详见 README.md 和 GitHub docs/VALIDATION.md。
+
+下载：https://github.com/HX-Jan/ditto-desktop-pet/releases
+反馈：https://github.com/HX-Jan/ditto-desktop-pet/issues
+非官方同人作品，角色相关权利归原权利人所有。详见 ASSETS.md。
