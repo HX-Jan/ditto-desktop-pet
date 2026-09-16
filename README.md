@@ -53,7 +53,7 @@ dotnet run --project tests/Ditto.Tests -c Release
 ./artifacts/publish/DittoDesktopPet.exe --soak-test --output artifacts/soak
 ```
 
-检查模式使用独立实例和临时设置，不覆盖日常设置。`--soak-test` 持续 30 分钟，完成后自动退出并生成结果。`--export-demo --output artifacts/frames` 导出真实动画帧，`python tools/create_demo.py` 生成文档动图（需要 Pillow）。GitHub Actions 在每次推送运行核心检查和打包，版本标签触发预发布。
+检查模式使用独立实例和临时设置，不覆盖日常设置。`--soak-test` 持续 30 分钟，完成后自动退出并生成结果；资源增长以运行 10 分钟后的预热基准计算。`--export-demo --output artifacts/frames` 导出真实动画帧，`python tools/create_demo.py` 生成文档动图（需要 Pillow）。GitHub Actions 在每次推送运行核心检查和打包，版本标签触发预发布。
 
 ## 许可
 

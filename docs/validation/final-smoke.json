@@ -1,0 +1,30 @@
+{
+  "passed": true,
+  "elapsedSeconds": 3.5834968,
+  "scale": 1.75,
+  "os": "Microsoft Windows NT 10.0.26100.0",
+  "checks": {
+    "nonActivatingWindowStyle": true,
+    "toolWindowStyle": true,
+    "topmostStyle": true,
+    "mouseActivateReturnsNoActivate": true,
+    "transparentCornerPassesThrough": true,
+    "opaqueBodyIsInteractive": true,
+    "size96": true,
+    "size128": true,
+    "size160": true,
+    "pauseFreezesMovementAndAnimation": true,
+    "sleep": true,
+    "drag": true,
+    "dropSettlesAtFloor": true,
+    "hiddenStopsTimer": true,
+    "preservesForegroundWindow": true,
+    "showRestoresTimer": true,
+    "insideWorkArea": true
+  },
+  "privateMemoryBytes": 53645312,
+  "initialMemoryBytes": 54063104,
+  "handles": 609,
+  "cpuSeconds": 0,
+  "samples": []
+}

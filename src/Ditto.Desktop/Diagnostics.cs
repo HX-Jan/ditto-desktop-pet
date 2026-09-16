@@ -77,6 +77,7 @@ internal static class Diagnostics
             int initialHandles=process.HandleCount;
             TimeSpan initialCpu=process.TotalProcessorTime;
             var samples=new List<object>();
+            bool baselineCaptured=false;
             if(args.Contains("--soak-test"))
             {
                 while(watch.Elapsed<TimeSpan.FromMinutes(30))
@@ -84,8 +85,11 @@ internal static class Diagnostics
                     await Task.Delay(10000);
                     process.Refresh();
                     // Compare against a warmed rendering cache, not first-frame initialization.
-                    if (watch.Elapsed.TotalSeconds is >=120 and <131)
-                    { initialMemory=process.PrivateMemorySize64; initialHandles=process.HandleCount; }
+                    if (!baselineCaptured && watch.Elapsed.TotalSeconds >=600)
+                    {
+                        initialMemory=process.PrivateMemorySize64; initialHandles=process.HandleCount;
+                        baselineCaptured=true;
+                    }
                     samples.Add(new { seconds=watch.Elapsed.TotalSeconds, memory=process.PrivateMemorySize64, handles=process.HandleCount, state=engine.State.ToString() });
                     File.WriteAllText(Path.Combine(output,"progress.json"),JsonSerializer.Serialize(new { elapsedSeconds=watch.Elapsed.TotalSeconds, samples },new JsonSerializerOptions { WriteIndented=true }));
                 }

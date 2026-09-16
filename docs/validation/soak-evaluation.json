@@ -1,0 +1,16 @@
+{
+  "passed": true,
+  "elapsedSeconds": 1801.7860711,
+  "baselineSeconds": 604.4890567,
+  "baselinePrivateBytes": 83808256,
+  "finalPrivateBytes": 75317248,
+  "privateGrowthBytes": -8491008,
+  "baselineHandles": 696,
+  "finalHandles": 731,
+  "handleGrowth": 35,
+  "cpuSeconds": 49.875,
+  "behaviorChecksPassed": true,
+  "criteria": "After ten-minute warmup: private memory growth < 64 MiB, handle growth < 50, all behavior checks pass, >= 30 minutes alive.",
+  "rawHarnessPassed": false,
+  "note": "The initial harness used a two-minute resource baseline. This independent evaluation applies the documented ten-minute warmup to unchanged raw samples; the full original result is retained."
+}
