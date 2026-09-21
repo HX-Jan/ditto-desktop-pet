@@ -1,3 +1,4 @@
+# Historical v0.1.0 analysis only. v0.2.0 reports its unmodified diagnostics result directly.
 param(
     [string]$InputPath = 'artifacts/standalone-soak/result.json',
     [string]$OutputPath = 'artifacts/soak-evaluation.json'

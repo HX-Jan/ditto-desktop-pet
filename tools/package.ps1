@@ -3,6 +3,8 @@ $ErrorActionPreference = 'Stop'
 $repoRoot = Split-Path $PSScriptRoot -Parent
 Push-Location $repoRoot
 try {
+    $version = ([xml](Get-Content src/Ditto.Desktop/Ditto.Desktop.csproj -Raw)).Project.PropertyGroup.Version
+    $archiveName = "DittoDesktopPet-v$version-win-x64.zip"
     & $Dotnet run --project tests/Ditto.Tests -c Release
     if ($LASTEXITCODE -ne 0) { throw 'Core checks failed.' }
     & $Dotnet publish src/Ditto.Desktop -c Release -r win-x64 --self-contained true -p:PublishTrimmed=false -o artifacts/publish
@@ -22,10 +24,10 @@ try {
         if (-not $notices) { throw "Missing license notices for $packageName" }
         Copy-Item -LiteralPath $notices.FullName -Destination $noticeDir
     }
-    $zipPath = Join-Path $repoRoot 'artifacts/DittoDesktopPet-v0.1.0-win-x64.zip'
+    $zipPath = Join-Path $repoRoot "artifacts/$archiveName"
     $packageEntries = Get-ChildItem artifacts/publish | Where-Object { $_.Extension -ne '.pdb' }
     Compress-Archive -LiteralPath $packageEntries.FullName -DestinationPath $zipPath -Force
     $hash = (Get-FileHash -LiteralPath $zipPath -Algorithm SHA256).Hash.ToLowerInvariant()
-    "$hash  DittoDesktopPet-v0.1.0-win-x64.zip" | Set-Content artifacts/SHA256SUMS.txt -Encoding ascii
+    "$hash  $archiveName" | Set-Content artifacts/SHA256SUMS.txt -Encoding ascii
     Write-Output $zipPath
 } finally { Pop-Location }

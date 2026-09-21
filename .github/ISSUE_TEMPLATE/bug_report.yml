@@ -13,7 +13,7 @@ body:
     id: environment
     attributes:
       label: 运行环境
-      placeholder: 例如 Windows 11 24H2、175% 缩放、1920×1080、桌宠 v0.1.0
+      placeholder: 例如 Windows 11 24H2、175% 缩放、1920×1080、桌宠 v0.2.0
     validations:
       required: true
   - type: textarea

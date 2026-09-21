@@ -1,4 +1,4 @@
-param([Parameter(Mandatory)][int]$PetProcessId, [Parameter(Mandatory)][string]$Executable)
+param([Parameter(Mandatory)][int]$PetProcessId, [Parameter(Mandatory)][string]$Executable, [string]$OutputPath='artifacts/menu-test.json')
 $ErrorActionPreference='Stop'
 Add-Type -AssemblyName UIAutomationClient
 Add-Type -AssemblyName UIAutomationTypes
@@ -22,6 +22,7 @@ $petHandle = [IntPtr]([long]($petLine.Split('|')[0].Trim()))
 $originalCursor = New-Object DittoMouseProbe+Point
 [DittoMouseProbe]::GetCursorPos([ref]$originalCursor) | Out-Null
 try {
+    function Open-PetMenu {
     $rect = New-Object DittoMouseProbe+Rect
     [DittoMouseProbe]::GetWindowRect($petHandle,[ref]$rect) | Out-Null
     [DittoMouseProbe]::SetCursorPos([int](($rect.Left+$rect.Right)/2),[int]($rect.Top+($rect.Bottom-$rect.Top)*0.8)) | Out-Null
@@ -30,19 +31,29 @@ try {
     Start-Sleep -Milliseconds 300
     $condition = New-Object System.Windows.Automation.PropertyCondition([System.Windows.Automation.AutomationElement]::ProcessIdProperty,$PetProcessId)
     $elements = [System.Windows.Automation.AutomationElement]::RootElement.FindAll([System.Windows.Automation.TreeScope]::Descendants,$condition)
+    return ,$elements
+    }
+    $elements = Open-PetMenu
     $menuNames = @($elements | ForEach-Object { $_.Current.Name })
+    $spawn = $elements | Where-Object { $_.Current.Name -eq '叫出小球' } | Select-Object -First 1
+    if (-not $spawn) { throw 'v0.2 toy menu unavailable.' }
+    $spawn.GetCurrentPattern([System.Windows.Automation.InvokePattern]::Pattern).Invoke()
+    Start-Sleep -Milliseconds 200
+    $ballShown = [bool]([DittoWindowProbe]::Windows([uint32]$PetProcessId) | Where-Object { $_ -match 'True.*百变怪的小球$' })
+    $elements = Open-PetMenu
     $hide = $elements | Where-Object { $_.Current.Name -eq '隐藏到托盘' } | Select-Object -First 1
     if (-not $hide) { throw ('Hide menu unavailable. Elements: ' + ($menuNames -join ', ')) }
     $invoke = $hide.GetCurrentPattern([System.Windows.Automation.InvokePattern]::Pattern)
     $invoke.Invoke()
     Start-Sleep -Milliseconds 150
     $hidden = [bool]([DittoWindowProbe]::Windows([uint32]$PetProcessId) | Where-Object { $_ -match 'False.*百变怪桌宠$' })
+    $ballHidden = -not [bool]([DittoWindowProbe]::Windows([uint32]$PetProcessId) | Where-Object { $_ -match 'True.*百变怪的小球$' })
     $duplicate = Start-Process -FilePath $Executable -WindowStyle Hidden -PassThru
     $duplicateExited = $duplicate.WaitForExit(5000)
     Start-Sleep -Milliseconds 300
     $restored = [bool]([DittoWindowProbe]::Windows([uint32]$PetProcessId) | Where-Object { $_ -match 'True.*百变怪桌宠$' })
-    @{ menuNames=$menuNames; hiddenViaRealMenu=$hidden; duplicateExited=$duplicateExited; hiddenInstanceRestored=$restored } | ConvertTo-Json | Tee-Object artifacts/menu-test.json
-    if(-not ($hidden -and $duplicateExited -and $restored)) { throw 'Menu / single instance check failed.' }
+    @{ menuNames=$menuNames; ballShownViaMenu=$ballShown; ballHiddenWithPet=$ballHidden; hiddenViaRealMenu=$hidden; duplicateExited=$duplicateExited; hiddenInstanceRestored=$restored } | ConvertTo-Json | Tee-Object $OutputPath
+    if(-not ($ballShown -and $ballHidden -and $hidden -and $duplicateExited -and $restored)) { throw 'Menu / single instance check failed.' }
 } finally {
     [DittoMouseProbe]::SetCursorPos($originalCursor.X,$originalCursor.Y) | Out-Null
     [DittoWindowProbe]::PostMessage($petHandle,0x10,[IntPtr]::Zero,[IntPtr]::Zero) | Out-Null

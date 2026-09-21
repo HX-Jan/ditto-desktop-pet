@@ -22,7 +22,7 @@ jobs:
         with:
           name: DittoDesktopPet-win-x64
           path: |
-            artifacts/DittoDesktopPet-v0.1.0-win-x64.zip
+            artifacts/DittoDesktopPet-v*-win-x64.zip
             artifacts/SHA256SUMS.txt
           if-no-files-found: error
   release:
