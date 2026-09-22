@@ -1,6 +1,6 @@
 {
   "passed": true,
-  "elapsedSeconds": 5.5882771,
+  "elapsedSeconds": 5.4536777,
   "scale": 1.75,
   "os": "Microsoft Windows NT 10.0.26100.0",
   "checks": {
@@ -38,9 +38,9 @@
     "quietEndsPlay": true,
     "spriteCacheBounded": true
   },
-  "privateMemoryBytes": 105680896,
-  "initialMemoryBytes": 106098688,
-  "handles": 692,
-  "cpuSeconds": 0.015625,
+  "privateMemoryBytes": 106463232,
+  "initialMemoryBytes": 106889216,
+  "handles": 675,
+  "cpuSeconds": 0,
   "samples": []
 }
