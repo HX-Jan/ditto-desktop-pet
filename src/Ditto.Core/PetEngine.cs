@@ -13,6 +13,7 @@ public sealed class PetEngine
     private double pettingCooldown, stillHeadTime;
     private bool pointerDown, hasCursor;
     private int rapidClicks;
+    private PetState? lastAutonomousState;
     private CursorSnapshot cursor;
     public PetEngine(int seed=0) => random=seed==0?new Random():new Random(seed);
     public PetState State { get; private set; }=PetState.Idle;
@@ -161,12 +162,18 @@ public sealed class PetEngine
         {
             if(Activity==ActivityMode.Lively)
             {
-                SetState(new[]{PetState.Stretching,PetState.Jumping,PetState.Yawning}[random.Next(3)]);
+                StartAutonomousAction(new[]{PetState.Stretching,PetState.Jumping,PetState.Yawning});
                 Expressions.Show(Emotion.Affection,random.Next(2)==0?Emote.Heart:Emote.Question);
             }
-            else SetState(random.Next(2)==0?PetState.Stretching:PetState.Yawning);
+            else StartAutonomousAction(new[]{PetState.Stretching,PetState.Yawning});
             nextAction=time+(Activity==ActivityMode.Lively?12+random.NextDouble()*12:35+random.NextDouble()*25);
         }
+    }
+    private void StartAutonomousAction(PetState[] choices)
+    {
+        var available=choices.Where(state=>state!=lastAutonomousState).ToArray();
+        var next=available[random.Next(available.Length)];
+        lastAutonomousState=next; SetState(next);
     }
     private void ObserveCursor(double dt)
     {

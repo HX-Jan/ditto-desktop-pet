@@ -1,6 +1,6 @@
 {
-  "hiddenInstanceRestored": true,
-  "duplicateExited": true,
+  "ballDraggedViaMouse": true,
+  "ballHiddenWithPet": true,
   "menuNames": [
     "",
     "",
@@ -32,7 +32,9 @@
     "百变怪桌宠",
     ""
   ],
-  "ballHiddenWithPet": true,
-  "ballShownViaMenu": true,
-  "hiddenViaRealMenu": true
+  "ballPreservedFocus": true,
+  "duplicateExited": true,
+  "hiddenViaRealMenu": true,
+  "hiddenInstanceRestored": true,
+  "ballShownViaMenu": true
 }

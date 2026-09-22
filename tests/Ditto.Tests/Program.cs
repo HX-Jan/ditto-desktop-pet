@@ -129,6 +129,20 @@ foreach(double scale in new[]{1.0,1.25,1.5,2.0})
     }
     Check(inside,$"pet and ball remain bounded at {scale*100}% simulated geometry");
 }
+foreach(var activity in new[]{ActivityMode.Lively,ActivityMode.Quiet})
+{
+    var companion=Pet(); companion.SetActivity(activity);
+    PetState? previousAction=null; int actions=0; bool repeated=false;
+    for(int i=0;i<30000;i++)
+    {
+        var before=companion.State; companion.Tick(1.0/30);
+        if(companion.State!=before && companion.State is PetState.Stretching or PetState.Yawning or PetState.Jumping)
+        {
+            repeated|=previousAction==companion.State; previousAction=companion.State; actions++;
+        }
+    }
+    Check(actions>=10 && !repeated,$"{activity} autonomous gestures do not repeat consecutively");
+}
 Directory.CreateDirectory(dir);
 try
 {

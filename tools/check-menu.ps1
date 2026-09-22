@@ -40,6 +40,24 @@ try {
     $spawn.GetCurrentPattern([System.Windows.Automation.InvokePattern]::Pattern).Invoke()
     Start-Sleep -Milliseconds 200
     $ballShown = [bool]([DittoWindowProbe]::Windows([uint32]$PetProcessId) | Where-Object { $_ -match 'True.*百变怪的小球$' })
+    $ballLine = [DittoWindowProbe]::Windows([uint32]$PetProcessId) | Where-Object { $_ -match 'True.*百变怪的小球$' } | Select-Object -First 1
+    $ballHandle = [IntPtr]([long]($ballLine.Split('|')[0].Trim()))
+    $ballRect = New-Object DittoMouseProbe+Rect
+    [DittoMouseProbe]::GetWindowRect($ballHandle,[ref]$ballRect) | Out-Null
+    $ballX = [int](($ballRect.Left+$ballRect.Right)/2)
+    $ballY = [int](($ballRect.Top+$ballRect.Bottom)/2)
+    $focusBeforeDrag = [DittoWindowProbe]::GetForegroundWindow()
+    [DittoMouseProbe]::SetCursorPos($ballX,$ballY) | Out-Null
+    [DittoMouseProbe]::mouse_event(0x02,0,0,0,[UIntPtr]::Zero)
+    for($step=1;$step -le 6;$step++) {
+        [DittoMouseProbe]::SetCursorPos($ballX+$step*15,$ballY-$step*15) | Out-Null
+        Start-Sleep -Milliseconds 40
+    }
+    $dragRect = New-Object DittoMouseProbe+Rect
+    [DittoMouseProbe]::GetWindowRect($ballHandle,[ref]$dragRect) | Out-Null
+    [DittoMouseProbe]::mouse_event(0x04,0,0,0,[UIntPtr]::Zero)
+    $ballDragged = $dragRect.Top -lt $ballRect.Top-30
+    $ballPreservedFocus = [DittoWindowProbe]::GetForegroundWindow() -eq $focusBeforeDrag
     $elements = Open-PetMenu
     $hide = $elements | Where-Object { $_.Current.Name -eq '隐藏到托盘' } | Select-Object -First 1
     if (-not $hide) { throw ('Hide menu unavailable. Elements: ' + ($menuNames -join ', ')) }
@@ -52,8 +70,8 @@ try {
     $duplicateExited = $duplicate.WaitForExit(5000)
     Start-Sleep -Milliseconds 300
     $restored = [bool]([DittoWindowProbe]::Windows([uint32]$PetProcessId) | Where-Object { $_ -match 'True.*百变怪桌宠$' })
-    @{ menuNames=$menuNames; ballShownViaMenu=$ballShown; ballHiddenWithPet=$ballHidden; hiddenViaRealMenu=$hidden; duplicateExited=$duplicateExited; hiddenInstanceRestored=$restored } | ConvertTo-Json | Tee-Object $OutputPath
-    if(-not ($ballShown -and $ballHidden -and $hidden -and $duplicateExited -and $restored)) { throw 'Menu / single instance check failed.' }
+    @{ menuNames=$menuNames; ballShownViaMenu=$ballShown; ballDraggedViaMouse=$ballDragged; ballPreservedFocus=$ballPreservedFocus; ballHiddenWithPet=$ballHidden; hiddenViaRealMenu=$hidden; duplicateExited=$duplicateExited; hiddenInstanceRestored=$restored } | ConvertTo-Json | Tee-Object $OutputPath
+    if(-not ($ballShown -and $ballDragged -and $ballPreservedFocus -and $ballHidden -and $hidden -and $duplicateExited -and $restored)) { throw 'Menu / single instance check failed.' }
 } finally {
     [DittoMouseProbe]::SetCursorPos($originalCursor.X,$originalCursor.Y) | Out-Null
     [DittoWindowProbe]::PostMessage($petHandle,0x10,[IntPtr]::Zero,[IntPtr]::Zero) | Out-Null

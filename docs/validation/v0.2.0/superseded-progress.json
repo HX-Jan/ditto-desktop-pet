@@ -1,0 +1,126 @@
+{
+  "elapsedSeconds": 115.7441839,
+  "samples": [
+    {
+      "seconds": 15.5599726,
+      "memory": 88707072,
+      "handles": 720,
+      "state": "Walking",
+      "playing": true,
+      "ball": true,
+      "paused": false,
+      "hidden": false,
+      "cachedSprites": 256
+    },
+    {
+      "seconds": 25.5963636,
+      "memory": 91602944,
+      "handles": 720,
+      "state": "Walking",
+      "playing": true,
+      "ball": true,
+      "paused": false,
+      "hidden": false,
+      "cachedSprites": 256
+    },
+    {
+      "seconds": 35.6102033,
+      "memory": 90800128,
+      "handles": 715,
+      "state": "Idle",
+      "playing": true,
+      "ball": true,
+      "paused": true,
+      "hidden": false,
+      "cachedSprites": 256
+    },
+    {
+      "seconds": 45.6284443,
+      "memory": 91308032,
+      "handles": 715,
+      "state": "Idle",
+      "playing": true,
+      "ball": true,
+      "paused": false,
+      "hidden": true,
+      "cachedSprites": 256
+    },
+    {
+      "seconds": 55.6629356,
+      "memory": 91361280,
+      "handles": 718,
+      "state": "Falling",
+      "playing": false,
+      "ball": false,
+      "paused": false,
+      "hidden": false,
+      "cachedSprites": 256
+    },
+    {
+      "seconds": 65.670844,
+      "memory": 92545024,
+      "handles": 712,
+      "state": "Idle",
+      "playing": true,
+      "ball": true,
+      "paused": false,
+      "hidden": false,
+      "cachedSprites": 256
+    },
+    {
+      "seconds": 75.688639,
+      "memory": 93892608,
+      "handles": 715,
+      "state": "Sleeping",
+      "playing": false,
+      "ball": false,
+      "paused": false,
+      "hidden": false,
+      "cachedSprites": 256
+    },
+    {
+      "seconds": 85.7056736,
+      "memory": 95531008,
+      "handles": 715,
+      "state": "Petting",
+      "playing": false,
+      "ball": false,
+      "paused": false,
+      "hidden": false,
+      "cachedSprites": 256
+    },
+    {
+      "seconds": 95.7200399,
+      "memory": 96579584,
+      "handles": 715,
+      "state": "Idle",
+      "playing": true,
+      "ball": false,
+      "paused": false,
+      "hidden": false,
+      "cachedSprites": 256
+    },
+    {
+      "seconds": 105.7338896,
+      "memory": 89214976,
+      "handles": 715,
+      "state": "Walking",
+      "playing": true,
+      "ball": true,
+      "paused": false,
+      "hidden": false,
+      "cachedSprites": 256
+    },
+    {
+      "seconds": 115.741618,
+      "memory": 89452544,
+      "handles": 715,
+      "state": "Idle",
+      "playing": false,
+      "ball": false,
+      "paused": false,
+      "hidden": false,
+      "cachedSprites": 256
+    }
+  ]
+}
