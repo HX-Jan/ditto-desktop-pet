@@ -35,6 +35,8 @@ SDK 10.0.401；免安装包内含 .NET 与 Windows Desktop Runtime 10.0.12。
 - 修正版 GitHub 独立 Windows 构建已通过：[构建记录](https://github.com/HX-Jan/ditto-desktop-pet/actions/runs/35682332487)。
 - 修正版免安装包在独立目录解压启动，33 项窗口检查再次通过；使用包内运行依赖，测试原始结果已更新。
 - 版本标签工作流构建 Windows x64 ZIP 和 SHA-256 文件，并将其作为 GitHub 预发布附件；下载后可用 `Get-FileHash` 与附件中的 `SHA256SUMS.txt` 对照。
+- [v0.2.0 标签构建与发布](https://github.com/HX-Jan/ditto-desktop-pet/actions/runs/35684206403) 均成功。实际下载预发布 ZIP（76,469,042 字节），其 SHA-256 与校验附件及 GitHub 资产摘要三者一致：`429c6dd827b3eda44909ccd4f81f9e338da33c83443559b536116c6263da3e3f`。
+- 从下载的发布 ZIP 再次独立解压启动，33 项窗口检查全部通过：[发布包检查原始结果](validation/v0.2.0/release-smoke.json)。这条发布后记录保存于主分支；标签和 ZIP 保留发布时内容，未替换附件。v0.1.0 标签与下载保持不变。
 
 ## 验证范围与限制
 
